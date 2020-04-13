@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解决fiex布局失效</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            /* height: 200%; */
+            /* position: relative; */
+            overflow: auto;
+        }
+        
+        .wrap {
+            width: 200px;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            background-color: aqua;
+        }
+        
+        footer {
+            height: 1000px;
+            width: 100%;
+            background: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+    </div>
+    <footer></footer>
+</body>
+
+</html>
