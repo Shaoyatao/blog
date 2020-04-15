@@ -522,13 +522,14 @@
 
 #### 1.3. 文字阴影
 
-	1. 阴影效果**可叠加**，使用逗号分隔
+1. 阴影效果**可叠加**，使用逗号分隔
+
  	2. `text-shadow: color offset-x offset-y blur-radius`
  	3. `filter:blur(10px)` css模糊函数
 
 #### 1.4. 文本描边
 
-- 只有webkit中支持，-webkit-text-stroke
+- **只有webkit中支持**，-webkit-text-stroke
 
 #### 1.5. 文字排版
 
@@ -543,7 +544,7 @@
 
 #### 2.2. 倒影
 
-- 只有webkit中支持，-webkit-box-reflect  设置元素的倒影
+- **只有webkit中支持**，-webkit-box-reflect  设置元素的倒影（文字描边，背景镂空）
 - 值：倒影的方向：`above, below, right, left`；倒影的距离；渐变
 
 #### 2.4. resize
@@ -610,11 +611,105 @@
    -    fixed此关键字表示背景相对于视口固定。即使一个元素拥有滚动机制，背景也不会随着元素的内容滚动 。
 - scroll 此关键字表示背景相对于元素本身固定， 而不是随着它的内容滚动
 6. css3中`background-origin`设置背景的渲染的起始位置
-7. `background-clip`设置背景裁剪位置
+7. `background-clip`设置背景裁剪位置 ，以文字为裁剪位置，**只有webkit中支持** `-webkit-background-clip: text;`
 8. `background-size` 设置背景图片大小
 
 #### 3.4. 渐变
 
 1. 线性渐变
+   - 默认从上到下发生渐变，可以更改角度`linear-gradient(deg,rgba() start-x,rgba() end-x)`
+   - 重复渐变`repeating-linear-gradient(60deg,red 0,blue 30%);`
 2. 径向渐变
+
+## 五、过渡&变形
+
+### 1. 过渡
+
+#### 1.1. 基本知识
+
+1. `transition`简写属性
+
+   - 默认值：`transition-delay: 0s,transition-duration: 0s,transition-property: all,transition-timing-function: ease`
+   - 默认值顺序：过渡时间  过渡样式  过渡形式  延迟时间 [，过渡时间  过渡样式  过渡形式  延迟时间]。第一个可以解析为时间的值会被赋值给`transition-duration`  例如：`transition:2s width,3s height`
+
+2. `transition-property` 属性：指定过渡的属性，默认值为all
+
+3. `transition-duration`属性：指定过渡所需的时间
+
+   - 需要加单位，0秒也要加，如果指定时间列表中其中一个时间没有单位，过渡则会失效。
+   - 如果指定的时长个数小于属性个，那么时长列表会重复数。如果时长列表更长，那么该列表会被裁减。
+
+4. `transition-timing-function`：调整过渡变化速度
+
+   - 常用属性：
+     - `ease`：（加速然后减速）默认值；
+     - `linear`：（匀速）
+     - `ease-in`：(加速)，
+     - `ease-out`：（减速）
+     - `ease-in-out`：（加速然后减速）与`ease`有区别，贝塞尔曲线不同
+   - `cubic-bezier`： 贝塞尔曲线
+   - `step-start`：等同于`steps(1,start)`开始一步到位；`step-end`：等同于`steps(1,end)`到过渡时间时一步到位；`steps(步数,start|end)`
+
+#### 1.2.  注意点
+
+1. css中过渡属性前后顺序
+
+   ```css
+   #test{
+       width: 100px;
+       height: 100px;
+       background: pink;
+       text-align: center;
+       position: absolute;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       top: 0;
+       margin: auto;
+   
+       transition-property: width;
+       transition-duration: 2s;
+       transition-timing-function: linear;
+   }
+   /* 鼠标移动到body上，过渡时，变换高度，离开时变换宽度 */
+   body:hover #test{
+       transition-property: height;
+       width: 200px;
+       height: 200px;
+   }
+   ```
+
+   
+
+2. transition在元素首次渲染还没有结束的情况下是不会被触发的
+
+   - JavaScript中直接更改高度无效，首次渲染未结束
+
+     ```js
+     var test = document.querySelector("#test");
+     test.style.width="300px";
+     ```
+
+   - 解决办法：`window.onload=function(){ ...... }` 或者`setTimeout(function(){......},time)`
+
+   - 首次渲染
+
+     ```js
+     window.onload=function(){
+         //此处div#test为首次渲染
+         var test = document.createElement("div");
+         test.id="test";
+         document.documentElement.appendChild(test);
+         setTimeout(function(){
+             test.style.width="300px";
+         },2000)
+     }
+     ```
+
+3. 检测过渡是否完成事件  `transitionend`
+
+### 2. 变换 
+
+#### 2.1.  
+
 
